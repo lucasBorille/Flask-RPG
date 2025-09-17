@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Criador de Personagens - Old Dragon</title>
+    <style>
+        body { font-family: sans-serif; background-color: #f4f4f4; color: #333; }
+        .container { max-width: 600px; margin: 20px auto; padding: 20px; background-color: #fff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        h1, h2 { text-align: center; }
+        label { display: block; margin-top: 15px; font-weight: bold; }
+        input[type="text"], select { width: 100%; padding: 8px; margin-top: 5px; border-radius: 4px; border: 1px solid #ddd; }
+        .options-group { margin-top: 10px; }
+        input[type="submit"] { display: block; width: 100%; padding: 10px; margin-top: 20px; background-color: #5cb85c; color: white; border: none; border-radius: 4px; font-size: 16px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Criador de Personagens - Old Dragon</h1>
+        <form action="/criar" method="post">
+            <label for="nome">Nome do Personagem:</label>
+            <input type="text" id="nome" name="nome" required>
+
+            <label>Escolha sua Raça:</label>
+            <div class="options-group">
+                <input type="radio" id="humano" name="raca" value="Humano" checked> <label for="humano" style="display: inline;">Humano</label><br>
+                <input type="radio" id="anao" name="raca" value="Anao"> <label for="anao" style="display: inline;">Anão</label><br>
+                <input type="radio" id="elfo" name="raca" value="Elfo"> <label for="elfo" style="display: inline;">Elfo</label><br>
+                <input type="radio" id="halfling" name="raca" value="Halfling"> <label for="halfling" style="display: inline;">Halfling</label><br>
+            </div>
+
+            <label>Escolha sua Classe:</label>
+            <div class="options-group">
+                <input type="radio" id="guerreiro" name="classe" value="Guerreiro" checked> <label for="guerreiro" style="display: inline;">Guerreiro</label><br>
+                <input type="radio" id="ladrao" name="classe" value="Ladrao"> <label for="ladrao" style="display: inline;">Ladrão</label><br>
+                <input type="radio" id="mago" name="classe" value="Mago"> <label for="mago" style="display: inline;">Mago</label><br>
+            </div>
+
+            <label>Método de Geração de Atributos:</label>
+            <div class="options-group">
+                <input type="radio" id="classico" name="metodo_atributos" value="classico" checked> <label for="classico" style="display: inline;">Clássico</label><br>
+                <input type="radio" id="aventureiro" name="metodo_atributos" value="aventureiro"> <label for="aventureiro" style="display: inline;">Aventureiro</label><br>
+                <input type="radio" id="heroico" name="metodo_atributos" value="heroico"> <label for="heroico" style="display: inline;">Heróico</label><br>
+            </div>
+            
+            <input type="submit" value="Criar Personagem">
+        </form>
+    </div>
+</body>
+</html>
