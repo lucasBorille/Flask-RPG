@@ -9,6 +9,18 @@ class Personagem:
         self.atributos = atributos
         self.pontos_de_vida = classe.pontos_de_vida_inicial
 
+    def to_dict(self):
+        """
+        Converte a instância e seus objetos aninhados em um dicionário
+        pronto para ser salvo em JSON.
+        """
+        data = self.__dict__.copy()
+
+        data['raca'] = self.raca.__dict__
+        data['classe'] = self.classe.__dict__
+        
+        return data
+
     def __str__(self):
         """Retorna a ficha completa do personagem formatada."""
         

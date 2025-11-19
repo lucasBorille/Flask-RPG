@@ -1,5 +1,6 @@
 # app.py
 from flask import Flask, render_template, request
+import json 
 
 # Importando nosso MODELO
 from model.personagem import Personagem
@@ -17,21 +18,25 @@ app = Flask(__name__)
 RACAS = {"Humano": Humano, "Anao": Anao, "Elfo": Elfo, "Halfling": Halfling}
 CLASSES = {"Guerreiro": Guerreiro, "Ladrao": Ladrao, "Mago": Mago}
 
+def salvar_personagem_json(personagem):
+    """Salva o personagem em um arquivo JSON local."""
+    with open('personagem_salvo.json', 'w', encoding='utf-8') as f:
+        # Aqui usamos o método to_dict que criamos no passo 1
+        json.dump(personagem.to_dict(), f, ensure_ascii=False, indent=4)
+    print("Personagem salvo com sucesso em 'personagem_salvo.json'!")
+
 @app.route('/', methods=['GET'])
 def index():
-    # A rota principal agora só exibe o formulário inicial
     return render_template('index.html')
 
 @app.route('/criar', methods=['POST'])
 def criar_personagem():
-    # Esta rota recebe os dados do formulário inicial
     nome = request.form['nome']
     raca_str = request.form['raca']
     classe_str = request.form['classe']
     metodo_atributos = request.form['metodo_atributos']
 
     if metodo_atributos == 'classico':
-        # Se for clássico, cria o personagem diretamente
         raca_obj = RACAS[raca_str]()
         classe_obj = CLASSES[classe_str]()
         atributos = GeradorAtributos.gerar_classico()
@@ -42,9 +47,11 @@ def criar_personagem():
             classe=classe_obj,
             atributos=atributos
         )
+
+        salvar_personagem_json(personagem_final) 
+
         return render_template('ficha.html', personagem=personagem_final, ficha_texto=str(personagem_final))
     else:
-        # Se for interativo, rola os valores e redireciona para a página de distribuição
         rolagens = []
         if metodo_atributos == 'aventureiro':
             rolagens = GeradorAtributos.gerar_aventureiro()
@@ -59,12 +66,10 @@ def criar_personagem():
 
 @app.route('/finalizar', methods=['POST'])
 def finalizar_personagem():
-    # Esta rota recebe os dados da página de distribuição
     nome = request.form['nome']
     raca_obj = RACAS[request.form['raca']]()
     classe_obj = CLASSES[request.form['classe']]()
     
-    # Monta o dicionário de atributos com base nas escolhas do usuário
     atributos = {
         "Força": int(request.form['Força']),
         "Destreza": int(request.form['Destreza']),
@@ -80,6 +85,8 @@ def finalizar_personagem():
         classe=classe_obj,
         atributos=atributos
     )
+    
+    salvar_personagem_json(personagem_final)
     
     return render_template('ficha.html', personagem=personagem_final, ficha_texto=str(personagem_final))
 
